@@ -9,6 +9,15 @@ import std.stdio;
 struct ByLine {
 	File file;
 	char[] buf;
+	@disable this();
+	this(File file) {
+		this.file = file;
+		popFront();
+	}
+	public static ByLine opCall(File file) {
+		ByLine ret = ByLine(file);
+		return ret;
+	}
 
 	bool empty;
 	char[] front;
@@ -29,10 +38,14 @@ struct ByLine {
 struct CSV {
 	ByLine byline;
 	alias byline this;
+	@disable this();
+	this(File file) {
+		this.byline = ByLine(file);
+		popFront();
+	}
 
 	public static CSV opCall(File file) {
-		CSV ret;
-		ret.byline = ByLine(file);
+		CSV ret = CSV(file);
 		return ret;
 	}
 
@@ -43,7 +56,6 @@ struct CSV {
 		front.length = 0;
 
 		auto line = byline.front;
-
 		front = parseCSV(line);
 	}
 }
@@ -95,7 +107,6 @@ string[] parseCSV(const char[] line) {
 		// part of current field in csv
 	}
 	ret ~= line[start .. $].idup;
-	writeln("lidne: ", ret);
 	return ret;
 }
 

@@ -1,6 +1,10 @@
 /**
  * This application outputs a csv file "output.csv" reporting the Monthly
  * total Amount and frequency of entries by Network and Product.
+ *
+ * Note: the csv column names are NOT considered in the field order
+ * input fields are expected to be in the order:
+ *     MSISDN,Network,Date,Product,Amount
  */
 import std.stdio;
 void runReport(File input, File output) {
@@ -39,6 +43,9 @@ void runReport(File input, File output) {
 	assert(aggregateTotal == documentTotal, "warning log, something went wrong");
 }
 
+/**
+ * Represents a single entry in the Loans.csv input csv file
+ */
 struct NetworkEntry {
 	string[] row;
 
@@ -48,6 +55,9 @@ struct NetworkEntry {
 		assert(row.length == 0 || row.length == 5, "invalid data input format at line: %s".format(row));
 	}
 
+	/**
+	 * Access each field in the CSV file according to its field name
+	 */
 	string opDispatch(string methodName)() {
 		switch (methodName) {
 			case "msisdn":

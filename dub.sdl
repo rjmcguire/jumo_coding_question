@@ -1,0 +1,5 @@
+name "jumo_coding_question"
+description "Jumo Coding Question, pivot a CSV"
+authors "Rory McGuire <rjmcguire@gmail.com>"
+copyright "Copyright © 2017, Rory McGuire <rjmcguire@gmail.com>"
+license "MIT"

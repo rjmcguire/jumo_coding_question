@@ -2,12 +2,11 @@
  * This application outputs a csv file "output.csv" reporting the Monthly
  * total Amount and frequency of entries by Network and Product.
  */
-
-void runReport() {
-	import std.stdio;
+import std.stdio;
+void runReport(File input, File output) {
 	import csv;
 
-	auto lines = loadData();
+	auto lines = loadData(input);
 
 	// Pre-process
 	NetworkEntry[string][string][string] entries;
@@ -19,7 +18,7 @@ void runReport() {
 	}
 
 	// Aggregate and output
-	writeln("Network,Product,Month,Amount,Count");
+	output.writeln("Network,Product,Month,Amount,Count");
 	foreach (month, monthEntries; entries) {
 		size_t count;
 		double total = 0;
@@ -32,7 +31,7 @@ void runReport() {
 				total += product.amount;
 			}
 		}
-		writefln("%s,%s,%s,%s,%s", networkName, productName, month, total, count);
+		output.writefln("%s,%s,%s,%s,%s", networkName, productName, month, total, count);
 		aggregateTotal += total;
 	}
 

@@ -60,9 +60,7 @@ struct CSV {
 	}
 }
 
-auto loadData() {
-	File file;
-	file = stdin;
+auto loadData(File file) {
 	return CSV(file);
 }
 

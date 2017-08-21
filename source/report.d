@@ -91,4 +91,6 @@ unittest {
 	assert(entry.date   == "12-Apr-2016");
 	assert(entry.product == "Loan Product 3");
 	assert(entry.amount  == 1928.00);
+
+	assert(entry.month == "Apr-2016");
 }

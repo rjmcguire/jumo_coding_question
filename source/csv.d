@@ -1,3 +1,10 @@
+module csv;
+
+/**
+ * A very basic implementation of a CSV reader. Expects all input to be valid UTF8.
+ * Each line is allocated on the Heap.
+ */
+
 import std.stdio;
 
 auto readCSV(T)(T lines) {
@@ -16,18 +23,4 @@ void loadData() {
 	foreach (line; lines) {
 		writeln(line);
 	}
-}
-
-/**
- * Base class for a two dimensional dataset
- */
-class DataStore {
-	string[] lines;
-	this() {
-		loadData();
-	}
-}
-
-void main() {
-	auto data = new DataStore();
 }

@@ -7,7 +7,7 @@ void runReport() {
 	import std.stdio;
 	import datastore;
 
-	auto data = new TypedDataStore();
+	auto data = new DataStore();
 
 	// Pre-process
 	NetworkEntry[string][string][string] entries;

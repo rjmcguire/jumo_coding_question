@@ -5,14 +5,14 @@
 
 void runReport() {
 	import std.stdio;
-	import datastore;
+	import csv;
 
-	auto data = new DataStore();
+	auto lines = loadData();
 
 	// Pre-process
 	NetworkEntry[string][string][string] entries;
 	double documentTotal = 0, aggregateTotal = 0;
-	foreach (row; data.getRows()) {
+	foreach (row; lines) {
 		auto entry = NetworkEntry(row);
 		entries[entry.month][entry.network][entry.product] = entry;
 		documentTotal += entry.amount;

@@ -11,13 +11,13 @@ void runReport() {
 	NetworkEntry[string][string][string] entries;
 	foreach (row; data.getRows()) {
 		auto entry = NetworkEntry(row);
-		entries[entry.month][entry.network][entry.product] = entry;
+		entries[entry.date][entry.network][entry.product] = entry;
 	}
 
-	foreach (month; entries) {
+	foreach (date; entries) {
 		size_t count;
 		double total;
-		foreach (network; month) {
+		foreach (network; date) {
 			foreach (product; network) {
 				++count;
 				total += product.amount;
@@ -41,7 +41,7 @@ struct NetworkEntry {
 				return row[0];
 			case "network":
 				return row[1];
-			case "month":
+			case "date":
 				return row[2];
 			case "product":
 				return row[3];
@@ -50,6 +50,13 @@ struct NetworkEntry {
 		}
 	}
 
+	string month()
+	in {
+		assert(this.date[2] == '-' && this.date[5] == '-');
+	}
+	body {
+		return this.date[3 .. $];
+	}
 
 	double amount() {
 		import std.conv;
@@ -62,7 +69,7 @@ unittest {
 	auto entry = NetworkEntry(["27723453455","Network 3","12-Apr-2016","Loan Product 3","1928.00"]);
 	assert(entry.msisdn  == "27723453455");
 	assert(entry.network == "Network 3");
-	assert(entry.month   == "12-Apr-2016");
+	assert(entry.date   == "12-Apr-2016");
 	assert(entry.product == "Loan Product 3");
 	assert(entry.amount  == 1928.00);
 }

@@ -19,11 +19,10 @@ interface IDataStore {
  * Base class for a two dimensional dataset
  */
 class DataStore : IDataStore {
-	string[] lines;
+	import csv;
+	CSV lines;
 	this() {
-		import csv;
-
-		loadData();
+		lines = loadData();
 	}
 
 	size_t numRows() {
@@ -43,7 +42,11 @@ class DataStore : IDataStore {
 		throw new Exception("not implemented");
 	}
 	string[][] getRows() {
-		throw new Exception("not implemented");
+		string[][] ret;
+		foreach (row; lines) {
+			ret ~= row;
+		}
+		return ret;
 	}
 
 	string getCell(size_t row, size_t column) {

@@ -4,26 +4,40 @@
  */
 
 void runReport() {
+	import std.stdio;
 	import datastore;
 
 	auto data = new TypedDataStore();
 
+	// Pre-process
 	NetworkEntry[string][string][string] entries;
+	double documentTotal = 0, aggregateTotal = 0;
 	foreach (row; data.getRows()) {
 		auto entry = NetworkEntry(row);
-		entries[entry.date][entry.network][entry.product] = entry;
+		entries[entry.month][entry.network][entry.product] = entry;
+		documentTotal += entry.amount;
 	}
 
-	foreach (date; entries) {
+	// Aggregate and output
+	writeln("Network,Product,Month,Amount,Count");
+	foreach (month, monthEntries; entries) {
 		size_t count;
-		double total;
-		foreach (network; date) {
-			foreach (product; network) {
+		double total = 0;
+		string productName, networkName;
+		foreach (network, networkEntries; monthEntries) {
+			networkName = network;
+			foreach (product; networkEntries) {
+				productName = product.product;
 				++count;
 				total += product.amount;
 			}
 		}
+		writefln("%s,%s,%s,%s,%s", networkName, productName, month, total, count);
+		aggregateTotal += total;
 	}
+
+	// double check totals against document total amount
+	assert(aggregateTotal == documentTotal, "warning log, something went wrong");
 }
 
 struct NetworkEntry {
@@ -52,7 +66,7 @@ struct NetworkEntry {
 
 	string month()
 	in {
-		assert(this.date[2] == '-' && this.date[5] == '-');
+		assert(this.date[2] == '-' && this.date[6] == '-');
 	}
 	body {
 		return this.date[3 .. $];
@@ -62,6 +76,11 @@ struct NetworkEntry {
 		import std.conv;
 
 		return to!double(row[4]);
+	}
+
+	string toString() {
+		import std.format;
+		return "msisdn=%s,network=%s,date=%s,product=%s,amount=%s".format(this.msisdn, this.network, this.date, this.product, this.amount);
 	}
 }
 

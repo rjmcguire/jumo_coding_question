@@ -45,7 +45,6 @@ class DataStore : IDataStore {
 		import std.stdio;
 		string[][] ret;
 		foreach (row; lines) {
-		writeln("lidne: ", row);
 			ret ~= row;
 		}
 		return ret;

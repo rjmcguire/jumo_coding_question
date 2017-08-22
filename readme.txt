@@ -1,5 +1,11 @@
 # A Utility to aggregate monthly loan product amounts.
 
+Building:
+ - Install D compiler from: dlang.org
+ - run `dub build` to build the executable.
+ - run `dub test` to execute the unittests.
+
+
 Usage:
 In order to generate the Output.csv file an input file Loans.csv should be provided
 in the current working directory with the format:
